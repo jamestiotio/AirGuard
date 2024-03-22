@@ -141,7 +141,7 @@ class TrackingFragment : Fragment() {
             }
 
             override fun onScroll(event: ScrollEvent?): Boolean {
-                // Handle scroll event if needed
+                // Handle scroll event
                 return true
             }
         })
@@ -252,7 +252,6 @@ class TrackingFragment : Fragment() {
     private fun addInteractions(view: View) {
         val button = view.findViewById<ImageButton>(R.id.open_map_button)
 
-
         button.setOnClickListener {
             val direction = TrackingFragmentDirections.actionTrackingFragmentToDeviceMapFragment(showAllDevices = false, deviceAddress = trackingViewModel.deviceAddress.value)
             findNavController().navigate(direction)
@@ -263,8 +262,6 @@ class TrackingFragment : Fragment() {
             val direction = TrackingFragmentDirections.actionTrackingFragmentToDeviceMapFragment(showAllDevices = false, deviceAddress = trackingViewModel.deviceAddress.value)
             findNavController().navigate(direction)
         }
-
-
     }
 
     private fun toggleSound() {

@@ -16,7 +16,6 @@ import androidx.work.impl.utils.taskexecutor.WorkManagerTaskExecutor
 import androidx.work.testing.TestForegroundUpdater
 import androidx.work.testing.TestProgressUpdater
 import de.seemoo.at_tracking_detection.database.AppDatabase
-import de.seemoo.at_tracking_detection.detection.BackgroundBluetoothScanner
 import de.seemoo.at_tracking_detection.detection.LocationProvider
 import de.seemoo.at_tracking_detection.detection.LocationRequester
 import de.seemoo.at_tracking_detection.detection.ScanBluetoothWorker
@@ -77,9 +76,9 @@ class ScanBluetoothWorkerTest {
         val scanRepository = DatabaseModule.provideScanRepository(DatabaseModule.provideScanDao(db))
         val locationRepository = DatabaseModule.provideLocationRepository(DatabaseModule.provideLocationDao(db))
         val locationProvider = LocationProvider(context.getSystemService<LocationManager>()!!)
+
         val notificationService = ATTrackingDetectionApplication.getCurrentApp()!!.notificationService
         val backgroundWorkScheduler = ATTrackingDetectionApplication.getCurrentApp()!!.backgroundWorkScheduler
-//        val backgroundBluetoothScanner = BackgroundBluetoothScanner(backgroundWorkScheduler, notificationService, locationProvider, scanRepository)
 
         val params = WorkerParameters(
             UUID.randomUUID(),
@@ -99,7 +98,7 @@ class ScanBluetoothWorkerTest {
         val worker = ScanBluetoothWorker(
             context,
             params,
-            backgroundWorkScheduler)
+            scanRepository, locationProvider, notificationService, backgroundWorkScheduler)
 
         runBlocking {
             val result = worker.doWork()
@@ -118,7 +117,6 @@ class ScanBluetoothWorkerTest {
 
         val notificationService = ATTrackingDetectionApplication.getCurrentApp()!!.notificationService
         val backgroundWorkScheduler = ATTrackingDetectionApplication.getCurrentApp()!!.backgroundWorkScheduler
-//        val backgroundScanner = BackgroundBluetoothScanner(backgroundWorkScheduler, notificationService, locationProvider, scanRepository)
 
         val params = WorkerParameters(
             UUID.randomUUID(),
@@ -135,11 +133,15 @@ class ScanBluetoothWorkerTest {
             TestForegroundUpdater()
         )
 
+        val worker = ScanBluetoothWorker(
+            context,
+            params,
+            scanRepository, locationProvider, notificationService, backgroundWorkScheduler)
 
         runBlocking {
-            val result = BackgroundBluetoothScanner.scanInBackground(startedFrom = "UnitTest")
+            val result = worker.doWork()
             assertThat(result, instanceOf(ListenableWorker.Result.Success::class.java))
-            Assert.assertNotNull(BackgroundBluetoothScanner.location)
+            Assert.assertNotNull(worker.location)
         }
     }
 
@@ -155,7 +157,6 @@ class ScanBluetoothWorkerTest {
 
         val notificationService = ATTrackingDetectionApplication.getCurrentApp()!!.notificationService
         val backgroundWorkScheduler = ATTrackingDetectionApplication.getCurrentApp()!!.backgroundWorkScheduler
-//        val backgroundScanner = BackgroundBluetoothScanner(backgroundWorkScheduler, notificationService, locationProvider, scanRepository)
 
         val params = WorkerParameters(
             UUID.randomUUID(),
@@ -172,10 +173,15 @@ class ScanBluetoothWorkerTest {
             TestForegroundUpdater()
         )
 
+        val worker = ScanBluetoothWorker(
+            context,
+            params,
+            scanRepository, locationProvider, notificationService, backgroundWorkScheduler)
+
         runBlocking {
-            val result = BackgroundBluetoothScanner.scanInBackground(startedFrom = "UnitTest")
+            val result = worker.doWork()
             assertThat(result, instanceOf(ListenableWorker.Result.Success::class.java))
-            Assert.assertNull(BackgroundBluetoothScanner.location)
+            Assert.assertNull(worker.location)
         }
     }
 
@@ -192,7 +198,6 @@ class ScanBluetoothWorkerTest {
         val notificationService = ATTrackingDetectionApplication.getCurrentApp()!!.notificationService
         val backgroundWorkScheduler = ATTrackingDetectionApplication.getCurrentApp()!!.backgroundWorkScheduler
 
-
         val params = WorkerParameters(
             UUID.randomUUID(),
             Data.EMPTY,
@@ -208,11 +213,15 @@ class ScanBluetoothWorkerTest {
             TestForegroundUpdater()
         )
 
+        val worker = ScanBluetoothWorker(
+            context,
+            params,
+            scanRepository, locationProvider, notificationService, backgroundWorkScheduler)
 
         runBlocking {
-            val result = BackgroundBluetoothScanner.scanInBackground(startedFrom = "UnitTest")
+            val result = worker.doWork()
             assertThat(result, instanceOf(ListenableWorker.Result.Success::class.java))
-            Assert.assertNull(BackgroundBluetoothScanner.location)
+            Assert.assertNull(worker.location)
         }
     }
 

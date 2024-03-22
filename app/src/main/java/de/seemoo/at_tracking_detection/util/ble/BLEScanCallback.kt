@@ -39,13 +39,8 @@ object BLEScanCallback {
 
         override fun onScanFailed(errorCode: Int) {
             super.onScanFailed(errorCode)
-            if (errorCode != 1 ) {
-                Timber.e("BLE Scan failed. $errorCode")
-                scanCallback?.get()?.onScanFailed(errorCode)
-            }else {
-                // errorCode = 1 means that scan is already running
-                Timber.w("BLE Scan already running.")
-            }
+            Timber.e("BLE Scan failed. $errorCode")
+            scanCallback?.get()?.onScanFailed(errorCode)
         }
     }
 }

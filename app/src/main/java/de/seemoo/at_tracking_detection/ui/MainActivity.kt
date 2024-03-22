@@ -17,7 +17,6 @@ import de.seemoo.at_tracking_detection.BuildConfig
 import de.seemoo.at_tracking_detection.R
 import de.seemoo.at_tracking_detection.util.SharedPrefs
 import de.seemoo.at_tracking_detection.util.ble.BLEScanner
-import de.seemoo.at_tracking_detection.worker.BackgroundWorkScheduler
 import org.osmdroid.config.Configuration
 import timber.log.Timber
 import java.io.File
@@ -29,9 +28,6 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
-
-    @Inject
-    lateinit var backgroundWorkScheduler: BackgroundWorkScheduler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,16 +91,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun onResume() {
         super.onResume()
         Timber.d("MainActivity onResume called")
         BLEScanner.startBluetoothScan(this.applicationContext)
-
-        Timber.d("Scheduling an immediate background scan onResume of MainActivity")
     }
 
 
