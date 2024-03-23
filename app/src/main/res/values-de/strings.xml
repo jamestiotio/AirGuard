@@ -224,7 +224,10 @@
     <string name="notification_title_multiple">%s folgen dir</string>
     <string name="notification_text_single">Öffnen, um weitere Informationen zu erhalten. Die %s ist Dir für mindestens %d Minuten gefolgt.</string>
     <string name="notification_text_multiple">Öffnen, um weitere Informationen zu erhalten. Der %s ist Dir für mindestens %d Minuten gefolgt.</string>
-    <string name="notification_text_base">Öffnen, um weitere Informationen zu erhalten. Ein Gerät ist Dir für mindestens %d Minuten gefolgt.</string>
+    <plurals name="notification_text_base">
+        <item quantity="one">Öffnen, um weitere Informationen zu erhalten. Ein Gerät ist Dir für mindestens einer Minute gefolgt.</item>
+        <item quantity="other">Öffnen, um weitere Informationen zu erhalten. Ein Gerät ist Dir für mindestens %d Minuten gefolgt.</item>
+    </plurals>
     <string name="notification_title_base">Ein Tracker folgt dir</string>
     <string name="ignored_devices">Ignorierte Geräte</string>
     <string name="airtags_found">Gefundene AirTags</string>
@@ -349,5 +352,6 @@
     <string name="low_risk_trackers">Sichere Tracker</string>
     <string name="marker_legend">Legende</string>
     <string name="device_marker">Standort an dem potenzieller Tracker gefunden wurde</string>
+    <string name="times_seen">Anzahl gesehen</string>
 
 </resources>
